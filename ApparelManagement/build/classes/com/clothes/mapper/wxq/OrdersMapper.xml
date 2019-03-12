@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clothes.dao.wxq.OrderDao">
+     <sql id="oritems">
+          od.o_id,od.o_date,cu.cu_name,ei.em_name,cu.link_phone,od.total,
+          od.spend,od.not_payment,od.o_state,od.payment_state,od.latest
+     </sql>
+     <!-- 条件查询 -->
+     <select id="findOrders"  parameterType="com.clothes.pojo.Orders"  resultType="java.util.Map">
+         SELECT <include refid="oritems"/> FROM orders od LEFT JOIN 
+         customer cu ON od.cu_id = cu.cu_id LEFT JOIN employee em ON 
+         od.em_id = em.em_id LEFT JOIN employee_info ei ON 
+         em.em_id = ei.em_id
+         <where>
+              <if test="oId!=''  and oId !=null">
+               AND   od.o_id = #{oId}
+              </if>
+              <if test="oDate!=''  and oDate!=null">
+                AND  od.o_date = #{oDate}
+              </if>
+             <if test="paymentState>0">
+                AND   od.payment_state = #{paymentState}
+              </if>
+               <if test="customer.cuName!=''  and  customer.cuName!=null">
+                AND  cu.cu_name = #{customer.cuName}
+              </if>
+               <if test="employee.emId>0">
+                AND  em.em_id = #{employee.emId}  AND od.o_state = 1 
+              </if>
+         </where>
+         ORDER BY od.o_id DESC
+     </select>
+     <!-- 更改订单金额 -->
+     <update id="updateOrders"  parameterType="com.clothes.pojo.Orders">
+          UPDATE orders od SET od.spend = (od.spend + #{spend}),od.not_payment = (od.not_payment - #{spend}) 
+          WHERE od.o_id = #{oId}
+     </update>
+</mapper>

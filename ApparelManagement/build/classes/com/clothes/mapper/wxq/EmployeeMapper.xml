@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clothes.dao.wxq.EmployeeDao">
+    <resultMap type="com.clothes.pojo.Employee" id="employee">
+        <id property="emId"  column="em_id"/>
+        <result property="emAcount"  column="em_acount"/>
+        <result property="emPwd"  column="em_pwd"/>
+        <result property="emType"  column="em_type"/>
+        <result property="emState"  column="em_state"/>
+    </resultMap>
+    <select id="findEmployee"  resultMap="employee">
+         SELECT * FROM employee em WHERE em.em_acount = #{emAcount} 
+         AND em.em_pwd =#{emPwd}  
+    </select>
+</mapper>

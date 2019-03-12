@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clothes.dao.wxq.CustomerDao">
+   <sql id="cutomerCulomn">
+       cu.cu_id,cu.cu_name,cu.link_name,cu.link_phone,cu.address,cu.email,cu.zip_code,cu.create_date,cu.cu_type,re.r_name
+   </sql>
+   <!--查询精确  -->
+   <select id="findCustomers"  parameterType="com.clothes.pojo.Customer" resultType="java.util.Map">
+      SELECT * FROM customer cu
+       WHERE cu.cu_name = #{cuName} AND cu.re_id = #{region.rId} AND cu.cu_state = 1
+   </select>
+   <!-- 模糊查询 -->
+   <select id="findCustomersLike"  parameterType="com.clothes.pojo.Customer"  resultType="java.util.Map">
+      SELECT <include refid="cutomerCulomn"/> FROM
+       customer cu LEFT JOIN region re ON cu.re_id = re.r_id
+       <where>
+           <if test="cuState!=0">
+             AND  cu.cu_state = #{cuState} 
+           </if>
+           <if test="cuType > 0">
+	         AND   cu.cu_type = #{cuType}
+	       </if>
+	       <if test="cuName!='%%'   and  cuName!=null">
+	         AND   cu.cu_name LIKE #{cuName}  OR   cu.link_name LIKE  #{cuName}   OR    re.r_name  LIKE  #{cuName}
+	       </if>
+       </where>
+   </select>
+   <!--添加  -->
+   <insert id="addCustomer"  parameterType="com.clothes.pojo.Customer">
+      INSERT INTO customer(customer.cu_name,customer.link_name,
+      customer.link_phone,customer.address,customer.email,customer.zip_code,
+      customer.create_date,customer.cu_type,customer.re_id,customer.cu_state)
+       VALUES(#{cuName},#{linkName},#{linkPhone},#{address},#{email},
+       #{zipCode},#{createDate},#{cuType},#{region.rId},1)
+   </insert>
+   <!-- 更新客户内容 -->
+   <update id="updateCustomer"   parameterType="com.clothes.pojo.Customer">
+       UPDATE customer cu SET cu.cu_name = #{cuName},cu.link_name = #{linkName},
+       cu.link_phone = #{linkPhone},cu.email = #{email},cu.address = #{address},
+       cu.cu_type = #{cuType},cu.zip_code = #{zipCode},cu.re_id = #{region.rId}
+       WHERE cu.cu_id =  #{cuId}
+   </update>
+   <!-- 删除客户 -->
+   <delete id="deleteCustomer">
+       UPDATE customer cu SET cu.cu_state = 0 WHERE cu.cu_id IN
+       <foreach collection="array"  item="id"  open="("  separator=","  close=")">
+             #{id}
+       </foreach>
+   </delete>
+   <!--  统计客户总量-->
+   <select id="countAllCustomer"   resultType="java.lang.Integer">
+       SELECT COUNT(*) FROM customer cu WHERE cu.cu_state = 1
+   </select>
+   <!--  根据客户类型统计客户数量-->
+   <select id="countCustomerByType"  resultType="java.util.Map">
+       SELECT COUNT(*) AS sn,cu.cu_type FROM customer cu GROUP BY cu.cu_type
+   </select>
+   <!-- 根据区域来统计客户数量 -->
+   <select id="countCustomerByRegion" resultType="java.util.Map">
+       SELECT COUNT(*) AS sn,re.r_name FROM customer cu LEFT JOIN region re ON cu.re_id = re.r_id WHERE cu.cu_state = 1 GROUP BY re.r_id
+   </select>
+   <!--  获取所有-->
+   <select id="findAllCustomer" parameterType="com.clothes.pojo.Customer"  resultType="java.util.Map">
+       SELECT * FROM customer cu WHERE cu.cu_state = 1
+   </select>
+</mapper>

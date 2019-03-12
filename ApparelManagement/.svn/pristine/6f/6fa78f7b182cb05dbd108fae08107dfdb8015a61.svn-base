@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>添加客户报单</title>
+		<style type="text/css">
+			
+		</style>
+		<link rel="stylesheet" href="layui/css/layui.css" media="all">
+		<link rel="stylesheet" href="dome/zeroModal/zeroModal.css" />
+		<script type="text/javascript" src="js/jquery.min-1.11.3.js"></script>
+	</head>
+	<body>
+		<form class="layui-form" style="margin-top: 10px;">
+			<div class="layui-form-item">
+				<label class="layui-form-label" style="width: 60px;">选择客户</label>
+			    <div class="layui-input-inline">
+			        <!-- style="width: 250px;height: 38px;display: block;" -->
+			    	<select name="cu_id"  style="display: block;width: 180px;height: 38px;"  id = "cuidd">
+			    		<!-- <option value="1">蓝山</option>
+			    		<option value="1">麦士威尔</option>
+			    		<option value="1">拿铁</option>
+			    		<option value="1">雀巢</option> -->
+			    	</select>
+			    </div>
+			    <div class="layui-input-inline">
+			    	<button class="layui-btn layui-btn-normal dbadd-btn">添加</button>
+			    </div>
+			</div>
+		</form>
+		<div class="addbdd">
+			<div><span>报单编号:</span><span class="ad">1203215620420520</span></div>
+			<table class="layui-table">
+				<caption style="margin-bottom: 5px;text-align: left;">
+					<button class="layui-btn layui-btn-small additembtn" data-type="notice">添加报单条目</button>
+				</caption>
+				<thead>
+					<tr>
+						<th>产品</th>
+						<th>颜色</th>
+						<th>尺寸</th>
+						<th>数量</th>
+					</tr>
+				</thead>
+				<tbody id="tbody">
+					<!-- <tr>
+						<td>童装</td>
+						<td>黑色</td>
+						<td>S</td>
+						<td>100</td>
+					</tr>
+					<tr>
+						<td>童装</td>
+						<td>黑色</td>
+						<td>S</td>
+						<td>100</td>
+					</tr>
+					<tr>
+						<td>童装</td>
+						<td>黑色</td>
+						<td>S</td>
+						<td>100</td>
+					</tr> -->
+				</tbody>
+			</table>
+		</div>
+	</body>
+	<script src="layui/layui.js" charset="utf-8"></script>
+	<script type="text/javascript" src="dome/zeroModal/zeroModal.min.js" ></script>
+	<script type="text/javascript" src="js/wxq/bd-add.js" ></script>
+</html>

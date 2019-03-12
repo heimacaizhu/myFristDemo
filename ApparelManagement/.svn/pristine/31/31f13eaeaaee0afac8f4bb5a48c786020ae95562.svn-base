@@ -1,0 +1,75 @@
+package com.clothes.pojo;
+/**
+ * 客户联系明细实体类
+ * @author 项目组
+ *
+ */
+public class LinkItems {
+	//id
+    private String liId;
+    //联系的客户
+    private Customer customer;
+    //客服员工
+   private Employee employee;
+   //联系内容
+    private String content;
+    //联系时间
+    private String liDate;
+    //状态
+    private Integer liState;
+
+    public String getLiId() {
+        return liId;
+    }
+
+    public void setLiId(String liId) {
+        this.liId = liId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getLiDate() {
+        return liDate;
+    }
+
+    public void setLiDate(String liDate) {
+        this.liDate = liDate;
+    }
+
+    public Integer getLiState() {
+        return liState;
+    }
+
+    public void setLiState(Integer liState) {
+        this.liState = liState;
+    }
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public Employee getEmployee() {
+		return employee;
+	}
+
+	public void setEmployee(Employee employee) {
+		this.employee = employee;
+	}
+
+	@Override
+	public String toString() {
+		return "LinkItems [liId=" + liId + ", customer=" + customer + ", employee=" + employee + ", content=" + content
+				+ ", liDate=" + liDate + ", liState=" + liState + "]";
+	}
+    
+}

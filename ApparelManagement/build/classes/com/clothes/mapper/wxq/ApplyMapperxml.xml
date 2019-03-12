@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clothes.dao.wxq.ApplyDao">
+     <!-- 计划显示字段 -->
+     <sql id="applyshow">
+           cu.link_phone,ap.ap_id,ei.em_name,ap.ap_date,cu.cu_name,
+           ap.deal_person,ap.ap_dealdate,ap.result,ap.ap_state,ap.ap_lever,
+           ed.em_name AS person
+     </sql>
+     <!-- 添加客户报单 -->
+     <insert id="addApply"  parameterType="com.clothes.pojo.Apply">
+           INSERT INTO apply(apply.ap_id,apply.applicant,apply.ap_date,
+           apply.ap_lever,apply.cu_id,apply.ap_type,apply.ap_state) 
+           VALUES(#{apId},#{applicant.emId},#{apDate},#{apLever},
+           #{customer.cuId},#{apType},1)
+     </insert>
+     <!-- 条件查询 -->
+     <select id="findApplys"  parameterType="com.clothes.pojo.Apply"  resultType="java.util.Map">
+          SELECT <include refid="applyshow"/> FROM apply ap LEFT JOIN 
+          customer cu ON ap.cu_id = cu.cu_id LEFT JOIN employee em ON 
+          ap.applicant = em.em_id LEFT JOIN employee_info ei ON 
+          em.em_id = ei.em_id LEFT JOIN (SELECT e1.em_id,e2.em_name FROM 
+          employee e1 LEFT JOIN employee_info e2 ON e1.em_id = e2.em_id) 
+          AS ed ON ap.deal_person = ed.em_id
+          <where>
+               <if test="apType>0">
+                     AND ap.ap_type = #{apType}
+               </if>
+               <if test="apState>0">
+                     AND ap.ap_state = #{apState}
+               </if>
+               <if test="apDate!='%%'  and apDate!=null">
+                    AND ap.ap_date LIKE #{apDate}
+               </if>
+               <if test="apLever>0">
+                     AND ap.ap_lever = #{apLever}
+               </if>
+          </where>
+           ORDER BY ap_date
+     </select>
+     <!-- 保存文件附件 -->
+     <update id="saveFile"   parameterType="com.clothes.pojo.Apply" >
+         UPDATE apply ap SET ap.accessory = #{accessory} WHERE ap.ap_id = #{apId}
+     </update>
+     <!-- 获取报单的附件名称 -->
+     <select id="getFilename"  resultType="java.lang.String">
+         SELECT ap.accessory FROM apply ap WHERE ap.ap_id = #{id}
+     </select>
+</mapper>

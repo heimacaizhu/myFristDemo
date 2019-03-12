@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clothes.dao.wxq.ApplyItemDao">
+    <!-- 计划条目显示字段 -->
+    <sql id="apitem">
+       gd.g_name,gi.color,gi.size,ai.num
+    </sql>
+    <!--添加计划条目  -->
+    <insert id="addApplyItem"  parameterType="com.clothes.pojo.Applyitem">
+         INSERT INTO applyitem(applyitem.ai_id,applyitem.ap_id,
+         applyitem.gi_id,applyitem.num,applyitem.ai_state) 
+         VALUES(#{aiId},#{apply.apId},#{goodsItem.giId},#{num},1)
+    </insert>
+    <!-- 获取所有的计划条目 -->
+    <select id="findApplyItem"  parameterType="com.clothes.pojo.Applyitem"  resultType="java.util.Map">
+         SELECT <include refid="apitem"/> FROM applyitem ai LEFT JOIN 
+         goodstitem gi ON ai.gi_id = gi.gi_id LEFT JOIN goods gd ON 
+         gd.g_id = gi.g_id WHERE ai.ap_id = #{apply.apId}
+    </select>
+</mapper>

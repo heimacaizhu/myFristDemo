@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace为唯一id，一般命名为包名+文件名 -->
+<mapper namespace="com.clothes.dao.yn.ApplyDaoy">
+	<!-- 回收策略 自动刷新时间60s 最多缓存512个对象 只读 -->
+	<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="false">
+
+	</cache>
+	<!-- 对象映射 -->
+	<resultMap type="com.clothes.pojo.Apply" id="Apply">
+		<id column="ap_id" property="apId" />
+		<result column="remark" property="remark" />
+		<result column="result" property="result" />
+		<result column="ap_state" property="apState" />
+		<result column="ap_type" property="apType" />
+		<result column="accessory" property="accessory" />
+		<result column="ap_date" property="apDate" />
+		<result column="ap_dealdate" property="apDealdate" />
+		<result column="ap_lever" property="apLever" />
+		<!-- 配置EmployeeInfo类映射 -->
+		<association property="applicant" javaType="com.clothes.pojo.Employee">
+			<id column="em_id" property="emId" />
+		</association>
+		<association property="deal_person" javaType="com.clothes.pojo.Employee">
+			<id column="em_id1" property="emId" />
+		</association>
+		<association property="customer" javaType="com.clothes.pojo.Customer">
+			<id column="cu_id" property="cuId" />
+		</association>
+		<collection property="list" ofType="com.clothes.pojo.Applyitem">
+			<id column="ai_id" property="aiId" />
+			<result column="num" property="num" />
+			<result column="ai_state" property="aiState" />
+			<association property="goodsItem" javaType="com.clothes.pojo.Goodstitem">
+				<id column="gi_id" property="giId" />
+			</association>
+		</collection>
+	</resultMap>
+
+	<!-- 获取所有申请 -->
+	<select id="getAllApply" resultMap="Apply">
+		select
+		ap.ap_id,ap.cu_id,ap.remark,ap.result,ap.ap_state,ap.ap_type,ap.applicant
+		em_id,ap.deal_person
+		em_id1,ap.accessory,ap.ap_date,ap.ap_dealdate,ap.ap_lever,ai.ai_id,ai.gi_id,ai.num,ai.ai_state
+		from apply ap left join applyitem ai on ap.ap_id=ai.ap_id where
+		ap.ap_state=1 and ap.ap_type=1
+	</select>
+	
+	<!-- 获取所有已处理申请 -->
+	<select id="getAllDealApply" resultMap="Apply">
+		select
+		ap.ap_id,ap.cu_id,ap.remark,ap.result,ap.ap_state,ap.ap_type,ap.applicant
+		em_id,ap.deal_person
+		em_id1,ap.accessory,ap.ap_date,ap.ap_dealdate,ap.ap_lever,ai.ai_id,ai.gi_id,ai.num,ai.ai_state
+		from apply ap left join applyitem ai on ap.ap_id=ai.ap_id where
+	    ap.ap_type=1 and (ap.ap_state=2 or ap.ap_state=3)
+	</select>
+	
+	<!-- 获取所有申请 -->
+	<select id="getApplyByLike" resultMap="Apply" parameterType="java.util.Map">
+		
+	</select>
+
+	<update id="updateDealApply" parameterType="java.util.Map">
+		update apply set ap_state=#{state},deal_person=#{dp},ap_dealdate=#{ddate} where ap_id=#{id}
+	</update>
+	
+	<update id="delDealApply" parameterType="java.util.Map">
+		update apply set ap_state=0 where ap_id=#{id}
+	</update>
+
+</mapper>

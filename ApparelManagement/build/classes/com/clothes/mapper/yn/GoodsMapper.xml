@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace为唯一id，一般命名为包名+文件名 -->
+<mapper namespace="com.clothes.dao.yn.GoodsDaoy">
+	<!-- 回收策略 自动刷新时间60s 最多缓存512个对象 只读 -->
+	<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="false">
+
+	</cache>
+	<!-- 对象映射 -->
+	<resultMap type="com.clothes.pojo.Goods" id="Goods">
+		<id column="g_id" property="gId" />
+		<result column="g_name" property="gName" />
+		<result column="brand_name" property="brandName" />
+		<result column="g_price" property="gPrice" />
+		<result column="fabrics" property="fabrics" />
+		<result column="g_type" property="gType" />
+		<result column="g_state" property="gState" />
+		<!-- 配置EmployeeInfo类映射 -->
+		<collection property="list" ofType="com.clothes.pojo.Goodstitem">
+			<id column="gi_id" property="giId" />
+			<result column="color" property="color" />
+			<result column="size" property="size" />
+			<result column="gi_state" property="giState" />
+			<collection property="imgList" ofType="com.clothes.pojo.Goodsimgs">
+				<id column="img_id" property="imgId" />
+				<result column="img_url" property="imgUrl" />
+				<result column="img_state" property="imgState" />
+			</collection>
+		</collection>
+	</resultMap>
+
+	<resultMap type="com.clothes.pojo.Goodstitem" id="Goodstitem">
+		<id column="gi_id" property="giId" />
+		<result column="color" property="color" />
+		<result column="size" property="size" />
+		<result column="gi_state" property="giState" />
+		<association property="goods" javaType="com.clothes.pojo.Goods">
+			<id column="g_id" property="gId" />
+			<result column="g_name" property="gName" />
+			<result column="brand_name" property="brandName" />
+			<result column="g_price" property="gPrice" />
+			<result column="fabrics" property="fabrics" />
+			<result column="g_type" property="gType" />
+			<result column="g_state" property="gState" />
+		</association>
+		<collection property="imgList" ofType="com.clothes.pojo.Goodsimgs">
+			<id column="img_id" property="imgId" />
+			<result column="img_url" property="imgUrl" />
+			<result column="img_state" property="imgState" />
+		</collection>
+	</resultMap>
+
+	<!-- 对象映射 -->
+	<resultMap type="com.clothes.pojo.Goodsimgs" id="Goodsimgs">
+		<id column="img_id" property="imgId" />
+		<result column="img_url" property="imgUrl" />
+		<result column="img_state" property="imgState" />
+	</resultMap>
+
+	<!-- 获取所有物品 -->
+	<select id="getGoodsImgById" resultMap="Goodsimgs"
+		parameterType="java.lang.String">
+		select gim.img_id,gim.img_url,gim.img_state from
+		goodsimgs gim where gim.gi_id=#{id}
+	</select>
+
+	<!-- 获取所有物品 -->
+	<select id="getAllgoods" resultMap="Goods" parameterType="java.lang.String">
+		select
+		g.g_id,g.g_name,g.g_state,g.g_price,g.g_type,g.brand_name,g.fabrics,gi.gi_id,gi.color,gi.size,gi.gi_state,gim.img_id,gim.img_url,gim.img_state
+		from goods g left join goodstitem gi on g.g_id=gi.g_id left join
+		goodsimgs gim on gi.gi_id=gim.gi_id where g.g_type=#{type}
+	</select>
+
+	<!-- 根据id获取物品 -->
+	<select id="getGoodsById" resultMap="Goods" parameterType="java.lang.String">
+		select
+		g.g_id,g.g_name,g.g_state,g.g_price,g.g_type,g.brand_name,g.fabrics,gi.gi_id,gi.color,gi.size,gi.gi_state,gim.img_id,gim.img_url,gim.img_state
+		from goods g left join goodstitem gi on g.g_id=gi.g_id left join
+		goodsimgs gim on gi.gi_id=gim.gi_id where g.g_id=#{id}
+	</select>
+	
+	<!-- 根据id获取物品条目 -->
+	<select id="getGoodsByGid" resultMap="Goodstitem" parameterType="java.lang.String">
+		select
+		g.g_id,g.g_name,g.g_state,g.g_price,g.g_type,g.brand_name,g.fabrics,gi.gi_id,gi.color,gi.size,gi.gi_state,gim.img_id,gim.img_url,gim.img_state
+		from goodstitem gi left join goods g on g.g_id=gi.g_id left join
+		goodsimgs gim on gi.gi_id=gim.gi_id where gi.gi_id=#{id}
+	</select>
+
+	<!-- 根据id获取物品条目 -->
+	<select id="getGoodsItemById" resultMap="Goods" parameterType="java.lang.String">
+		select
+		g.g_id,g.g_name,g.g_state,g.g_price,g.g_type,g.brand_name,g.fabrics,gi.gi_id,gi.color,gi.size,gi.gi_state,gim.img_id,gim.img_url,gim.img_state
+		from goods g left join goodstitem gi on g.g_id=gi.g_id left join
+		goodsimgs gim on gi.gi_id=gim.gi_id where gi.gi_id=#{id}
+	</select>
+
+	<!-- 获取条目不为空的物品 -->
+	<select id="getGoodsItems" resultMap="Goods" parameterType="java.lang.String">
+		select
+		g.g_id,g.g_name,g.g_state,g.g_price,g.g_type,g.brand_name,g.fabrics,gi.gi_id,gi.color,gi.size,gi.gi_state,gim.img_id,gim.img_url,gim.img_state
+		from goods g left join goodstitem gi on g.g_id=gi.g_id left join
+		goodsimgs gim on gi.gi_id=gim.gi_id where g.g_type=#{type} and
+		gi.gi_id is not null
+	</select>
+
+	<!-- 模糊查询获取物品 -->
+	<select id="getGoodsByLike" resultMap="Goods" parameterType="java.util.Map">
+		select
+		g.g_id,g.g_name,g.g_state,g.g_price,g.g_type,g.brand_name,g.fabrics,gi.gi_id,gi.color,gi.size,gi.gi_state,gim.img_id,gim.img_url,gim.img_state
+		from goods g left join goodstitem gi on g.g_id=gi.g_id left join
+		goodsimgs gim on gi.gi_id=gim.gi_id
+		<where>
+			<if test="isimg!=null and name!=''">
+				gi.gi_id is not null and (
+			</if>
+			<if test="name!=null and name!='' ">
+				g.g_name like #{name}
+			</if>
+			<if test="state!=null and state!=''">
+				or g.g_state like #{state}
+			</if>
+			<if test="type!=null and type!=''">
+				or g.g_type like #{type}
+			</if>
+			<if test="brand!=null and brand!=''">
+				or g.brand_name like #{brand}
+			</if>
+			<if test="fabrics!=null and fabrics!=''">
+				or g.fabrics like #{fabrics}
+			</if>
+			<if test="color!=null and color!=''">
+				or gi.color like #{color}
+			</if>
+			<if test="price!=null and price!=''">
+				or g.g_price like #{price}
+			</if>
+			<if test="gsize!=null and gsize!=''">
+				or gi.size like #{gsize}
+			</if>
+			<if test="isimg!=y">
+				)
+			</if>
+		</where>
+	</select>
+
+	<!-- 增加物品 -->
+	<insert id="addGoods" parameterType="java.util.Map">
+		insert into goods
+		(g_name,brand_name,g_price,fabrics,g_type,g_state) values
+		(#{name},#{brand},#{price},#{fabrics},#{type},#{state})
+	</insert>
+
+	<!-- 增加物品条目 -->
+	<insert id="addGoodsItem" parameterType="java.util.Map">
+		insert into goodstitem
+		(g_id,color,size,gi_state) values
+		(#{id},#{color},#{size},#{state})
+	</insert>
+
+	<!-- 为物品增加图片 -->
+	<insert id="addGoodsImg" parameterType="java.util.Map">
+		insert into goodsimgs
+		(gi_id,img_url,img_state) values
+		(#{id},#{url},#{state})
+	</insert>
+
+	<!-- 修改物品 -->
+	<update id="updateGoods" parameterType="java.util.Map">
+		update goods set
+		g_name=#{name},brand_name=#{brand},g_state=#{state},g_price=#{price},fabrics=#{fabrics}
+		where g_id=#{id}
+	</update>
+
+	<!-- 修改物品 条目 -->
+	<update id="updateGoodsItem" parameterType="java.util.Map">
+		update goodstitem set
+		color=#{color},size=#{size},gi_state=#{state} where
+		gi_id=#{id}
+	</update>
+
+	<!-- 删除指定条目 -->
+	<delete id="delGoodsItem" parameterType="java.lang.String">
+		delete from goodstitem
+		where gi_id=#{id}
+	</delete>
+
+	<!-- 删除指定物品的所有条目 -->
+	<delete id="delGoodsItems" parameterType="java.lang.String">
+		delete from goodstitem
+		where g_id=#{id}
+	</delete>
+
+	<!-- 删除指定物品 -->
+	<delete id="delGoods" parameterType="java.lang.String">
+		delete from goods where
+		g_id=#{id}
+	</delete>
+
+	<!-- 删除指定物品的图片 -->
+	<delete id="delGoodsImg">
+		delete from goodsimgs where gi_id in
+		<foreach collection="list" item="id" open="(" close=")"
+			separator=",">
+			#{id}
+		</foreach>
+	</delete>
+
+	<!-- 删除指定物品的图片 -->
+	<delete id="delGoodsImgById" parameterType="java.lang.String">
+		delete from goodsimgs
+		where img_id=#{id}
+	</delete>
+
+</mapper>

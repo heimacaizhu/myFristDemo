@@ -1,0 +1,47 @@
+/*未访问：蓝色、无下划线*/
+a:link {
+    color: #1cd042;
+    text-decoration: none;
+}
+
+/*激活：红色*/
+a:active {
+    color: red;
+}
+
+/*已访问：purple、无下划线*/
+a:visited {
+    color: #1cd042;
+    text-decoration: none;
+}
+
+/*鼠标移近：红色、下划线*/
+a:hover {
+    color: red;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.emp tr th, .emp tr td {
+    text-align: center;
+}
+
+.in_search_emp {
+    width: 300px;
+    display: inline;
+}
+
+.btn_search_emp {
+    display: inline;
+    width: 100px;
+}
+
+.btn_add_emp {
+    display: inline;
+    width: 100px;
+}
+
+
+.emp_page {
+    text-align: center;
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clothes.dao.lc.KctjDao">
+	<!-- 库存统计 -->
+	<resultMap type="com.clothes.pojo.Goods" id="goods">
+		<id property="g_id" column="gId"></id>
+		<result property="g_name" column="gName"/>
+		<result property="brand_name" column="brandName"/>
+		<result property="g_price" column="gPrice"/>
+		<result property="fabrics" column="fabrics"/>
+		<result property="g_type" column="gType"/>
+		<result property="g_state" column="gState"/>
+<!-- 		<association property="khmc" column="khmc_name" javaType="Khmc">
+			<id property="khmc_id" column="khmc_id"></id>
+			<result property="khmc_name" column="khmc_name"/>
+		</association> -->
+	</resultMap>
+	
+	<select id="getAllKctj" resultType="java.util.Map">
+		SELECT r.re_id,r.s_id,r.re_date,re.num,r.remark,e.em_name,g.g_name,g.brand_name,gs.size,gs.color FROM record r LEFT JOIN recorditem  re ON r.re_id=re.re_id LEFT JOIN goodstitem gs ON re.gi_id=gs.gi_id LEFT JOIN goods g ON g.g_id=gs.g_id LEFT JOIN employee_info e ON r.em_id=e.em_id; 
+	</select>
+</mapper>

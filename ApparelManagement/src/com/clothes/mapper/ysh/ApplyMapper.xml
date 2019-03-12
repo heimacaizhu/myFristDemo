@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clothes.dao.ysh.ApplyDaoysh">
+	<select id="showAllApply" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT a.ap_id,e.em_name "applicant",b.em_name "deal_person",a.ap_date,a.ap_dealdate,a.ap_type,a.ap_state,a.remark,a.result,a.ap_lever,a.accessory FROM apply a LEFT JOIN employee_info e  ON a.applicant = e.em_id LEFT JOIN employee_info b ON a.deal_person = b.em_id WHERE a.ap_state = #{ap_state} AND a.ap_type = #{ap_type}
+	</select>
+	<select id="showAllApplys" resultType="java.util.Map">
+		SELECT a.ap_id,e.em_name "applicant",b.em_name "deal_person",a.ap_date,a.ap_dealdate,a.ap_type,a.ap_state,a.remark,a.result,a.ap_lever,a.accessory FROM apply a LEFT JOIN employee_info e  ON a.applicant = e.em_id LEFT JOIN employee_info b ON a.deal_person = b.em_id WHERE a.ap_state = 1 AND a.ap_type = 2
+	</select>
+	<select id="showOneApply" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT * FROM applyitem a LEFT JOIN goodstitem gt ON a.gi_id = gt.gi_id LEFT JOIN goods g ON g.g_id = gt.g_id LEFT JOIN goodsimgs gi ON gt.gi_id = gi.gi_id WHERE a.ap_id = #{ap_id}
+	</select>
+	<update id="updateOneApply" parameterType="java.util.Map" >
+		UPDATE apply SET result = #{result},ap_state = #{ap_state},ap_dealdate = #{ap_dealdate},deal_person = #{deal_person} WHERE ap_id = #{ap_id}
+	</update>
+	<select id="showGoods" resultType="java.util.Map">
+		SELECT * FROM goods g LEFT JOIN goodstitem gt ON g.g_id = gt.g_id
+	</select>
+	<insert id="addApply" parameterType="java.util.Map" >
+		INSERT INTO apply(ap_id,applicant,remark,ap_state,ap_type,ap_date,ap_lever) VALUES(#{ap_id},#{applicant},#{remark},#{ap_state},#{ap_type},#{ap_date},#{ap_lever})
+	</insert>
+	<insert id="addApplyitem" parameterType="java.util.Map" >
+		INSERT INTO applyitem(ai_id,ap_id,gi_id,num,ai_state) VALUES(#{ai_id},#{ap_id},#{gi_id},#{num},#{ai_state})
+	</insert>
+	
+	<!-- 查询客户类型比例 -->
+	<select id="countCUtype" resultType="java.util.Map">
+		SELECT COUNT(*) as nums,cu_type FROM customer GROUP BY cu_type
+	</select>
+	<!-- 查询各个客户订单数量 -->
+	<select id="countCUname" resultType="java.util.Map">
+		SELECT COUNT(*) as nums,c.cu_name FROM apply a LEFT JOIN customer c ON a.cu_id = c.cu_id GROUP BY c.cu_name
+	</select>
+	<!-- 统计客服申请比例 -->
+	<select id="countApplicant" resultType="java.util.Map">
+		SELECT COUNT(*) as nums,e.em_name FROM apply a LEFT JOIN employee_info e ON a.applicant = e.em_id GROUP BY e.em_id
+	</select>
+	<!-- 统计处理人比例 -->
+	<select id="countDealPerson" resultType="java.util.Map">
+		SELECT COUNT(*) as nums,e.em_name FROM apply a LEFT JOIN employee_info e ON a.deal_person = e.em_id WHERE a.ap_state != 1 GROUP BY e.em_id
+	</select>
+</mapper>

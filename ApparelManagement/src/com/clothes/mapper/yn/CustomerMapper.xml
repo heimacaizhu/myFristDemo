@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace为唯一id，一般命名为包名+文件名 -->
+<mapper namespace="com.clothes.dao.yn.CustomerDaoy">
+	<!-- 回收策略 自动刷新时间60s 最多缓存512个对象 只读 -->
+	<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="false">
+
+	</cache>
+	<!-- 对象映射 -->
+	<resultMap type="com.clothes.pojo.Customer" id="Customer">
+		<id column="cu_id" property="cuId" />
+		<result column="cu_name" property="cuName" />
+		<result column="link_name" property="linkName" />
+		<result column="link_phone" property="linkPhone" />
+		<result column="address" property="address" />
+		<result column="email" property="email" />
+		<result column="zip_code" property="zipCode" />
+		<result column="create_date" property="createDate" />
+		<result column="cu_type" property="cuType" />
+		<result column="cu_state" property="cuState" />
+		<!-- 配置EmployeeInfo类映射 -->
+		<collection property="list" ofType="com.clothes.pojo.LinkItems">
+			<id column="li_id" property="liId" />
+			<result column="content" property="content" />
+			<result column="li_date" property="liDate" />
+			<result column="li_state" property="liState" />
+		</collection>
+	</resultMap>
+
+	<!-- 获取指定客户 -->
+	<select id="getCustomerById" resultMap="Customer" parameterType="java.lang.String">
+		select
+		cu.cu_id,cu.cu_name,cu.link_name,cu.link_phone,cu.address,cu.email,cu.zip_code,cu.create_date,cu.cu_type,cu.cu_state,li.li_id,li.content,li.li_date,li.li_state
+		from customer cu left join link_items li on cu.cu_id=li.cu_id where cu.cu_id=#{id}
+	</select>
+
+</mapper>

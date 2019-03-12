@@ -1,0 +1,170 @@
+package com.clothes.pojo;
+
+import java.util.List;
+
+/**
+ * 客户实体类
+ * @author 项目组
+ *
+ */
+public class Customer {
+	//客户id
+    private int cuId;
+    //客户所在区域
+    private Region region;
+    //客户名称
+    private String cuName;
+    //联系人姓名
+    private String linkName;
+    //联系人电话
+    private String linkPhone;
+    //通讯地址
+    private String address;
+    //邮箱
+    private String email;
+    //邮编
+    private String zipCode;
+    //创建时间
+    private String createDate;
+    //客户类型
+    private Integer cuType;
+    //客户状态
+    private Integer cuState;
+    //客户联系明细
+    private List<LinkItems> list;
+    //客户订单
+    private List<Orders> ordersList;
+    //客户退货单
+    private List<Creditorder> creditList;
+    //客户相关申请
+    private List<Apply> applyList;
+
+    public int getCuId() {
+        return cuId;
+    }
+
+    public void setCuId(int cuId) {
+        this.cuId = cuId;
+    }
+
+    public String getCuName() {
+        return cuName;
+    }
+
+    public void setCuName(String cuName) {
+        this.cuName = cuName;
+    }
+
+    public String getLinkName() {
+        return linkName;
+    }
+
+    public void setLinkName(String linkName) {
+        this.linkName = linkName;
+    }
+
+    public String getLinkPhone() {
+        return linkPhone;
+    }
+
+    public void setLinkPhone(String linkPhone) {
+        this.linkPhone = linkPhone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public Integer getCuType() {
+        return cuType;
+    }
+
+    public void setCuType(Integer cuType) {
+        this.cuType = cuType;
+    }
+
+    public Integer getCuState() {
+        return cuState;
+    }
+
+    public void setCuState(Integer cuState) {
+        this.cuState = cuState;
+    }
+
+	public Region getRegion() {
+		return region;
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
+	}
+
+	public List<LinkItems> getList() {
+		return list;
+	}
+
+	public void setList(List<LinkItems> list) {
+		this.list = list;
+	}
+
+	public List<Orders> getOrdersList() {
+		return ordersList;
+	}
+
+	public void setOrdersList(List<Orders> ordersList) {
+		this.ordersList = ordersList;
+	}
+
+	public List<Creditorder> getCreditList() {
+		return creditList;
+	}
+
+	public void setCreditList(List<Creditorder> creditList) {
+		this.creditList = creditList;
+	}
+
+	public List<Apply> getApplyList() {
+		return applyList;
+	}
+
+	public void setApplyList(List<Apply> applyList) {
+		this.applyList = applyList;
+	}
+
+	@Override
+	public String toString() {
+		return "Customer [cuId=" + cuId + ", region=" + region + ", cuName=" + cuName + ", linkName=" + linkName
+				+ ", linkPhone=" + linkPhone + ", address=" + address + ", email=" + email + ", zipCode=" + zipCode
+				+ ", createDate=" + createDate + ", cuType=" + cuType + ", cuState=" + cuState + ", list=" + list
+				+ ", ordersList=" + ordersList + ", creditList=" + creditList + ", applyList=" + applyList + "]";
+	}
+	
+}

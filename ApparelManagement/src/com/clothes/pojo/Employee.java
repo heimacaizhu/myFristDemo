@@ -1,0 +1,150 @@
+package com.clothes.pojo;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * 员工实体类
+ * @author 项目组
+ *
+ */
+public class Employee implements Serializable {
+	//员工id
+    private int emId;
+    //员工账号
+    private String emAcount;
+    //员工密码
+    private String emPwd;
+    //员工类型
+    private Integer emType;
+    //员工状态
+    private Integer emState;
+    //员工信息
+    private EmployeeInfo employeeInfo;
+    //客户联系明细
+    private List<LinkItems> list;
+    //客服订单
+    private List<Orders> orderslist;
+    //物品出入库
+    private List<Record> recordList;
+    //发送的消息
+    private List<Message> fmsgList;
+    //接收的消息
+    private List<Message> tmsgList;
+    //发送申请
+    private List<Apply> applyList;
+    //要处理的申请
+    private List<Apply> dealapplyList;
+    
+    public int getEmId() {
+        return emId;
+    }
+
+    public void setEmId(int emId) {
+        this.emId = emId;
+    }
+
+    public String getEmAcount() {
+        return emAcount;
+    }
+
+    public void setEmAcount(String emAcount) {
+        this.emAcount = emAcount;
+    }
+
+    public String getEmPwd() {
+        return emPwd;
+    }
+
+    public void setEmPwd(String emPwd) {
+        this.emPwd = emPwd;
+    }
+
+    public Integer getEmType() {
+        return emType;
+    }
+
+    public void setEmType(Integer emType) {
+        this.emType = emType;
+    }
+
+    public Integer getEmState() {
+        return emState;
+    }
+
+    public void setEmState(Integer emState) {
+        this.emState = emState;
+    }
+    
+    public EmployeeInfo getEmployeeInfo() {
+		return employeeInfo;
+	}
+
+	public void setEmployeeInfo(EmployeeInfo employeeInfo) {
+		this.employeeInfo = employeeInfo;
+	}
+
+	public List<LinkItems> getList() {
+		return list;
+	}
+
+	public void setList(List<LinkItems> list) {
+		this.list = list;
+	}
+
+	public List<Orders> getOrderslist() {
+		return orderslist;
+	}
+
+	public void setOrderslist(List<Orders> orderslist) {
+		this.orderslist = orderslist;
+	}
+
+	public List<Record> getRecordList() {
+		return recordList;
+	}
+
+	public void setRecordList(List<Record> recordList) {
+		this.recordList = recordList;
+	}
+
+	public List<Apply> getApplyList() {
+		return applyList;
+	}
+
+	public void setApplyList(List<Apply> applyList) {
+		this.applyList = applyList;
+	}
+
+	public List<Message> getFmsgList() {
+		return fmsgList;
+	}
+
+	public void setFmsgList(List<Message> fmsgList) {
+		this.fmsgList = fmsgList;
+	}
+
+	public List<Message> getTmsgList() {
+		return tmsgList;
+	}
+
+	public void setTmsgList(List<Message> tmsgList) {
+		this.tmsgList = tmsgList;
+	}
+
+	public List<Apply> getDealapplyList() {
+		return dealapplyList;
+	}
+
+	public void setDealapplyList(List<Apply> dealapplyList) {
+		this.dealapplyList = dealapplyList;
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [emId=" + emId + ", emAcount=" + emAcount + ", emPwd=" + emPwd + ", emType=" + emType
+				+ ", emState=" + emState + ", employeeInfo=" + employeeInfo + ", list=" + list + ", orderslist="
+				+ orderslist + ", recordList=" + recordList + ", fmsgList=" + fmsgList + ", tmsgList=" + tmsgList
+				+ ", applyList=" + applyList + ", dealapplyList=" + dealapplyList + "]";
+	}
+}

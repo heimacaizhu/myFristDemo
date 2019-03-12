@@ -1,0 +1,66 @@
+package com.clothes.controller.wxq;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.clothes.pojo.Employee;
+import com.clothes.service.wxq.EmployeeService;
+
+/**
+ * 登录和退出登录
+ * @author 吴晓强
+ *
+ */
+@Controller
+public class LoginController {
+	
+	@Autowired
+	private EmployeeService employeeServiceImp;
+	
+	/**
+	 * 登录
+	 * @param em
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/loginin")
+	@ResponseBody
+	public Map<String,Object> login(Employee em,String pageCode,HttpServletRequest request){
+		Map<String,Object> map = new HashMap<String,Object>();
+		HttpSession session = request.getSession(false);
+		String code = "";
+		//获取验证码
+		if(session!=null){
+			code = (String)session.getAttribute("validateCode");
+		}else{
+			map.put("msg", 2);
+			return map;
+		}
+		if(!code.equals(pageCode)){
+			//验证码不正确
+			map.put("msg", 2);
+			return map;
+		}
+		Employee emp = employeeServiceImp.findEmployee(em);
+		if(emp == null){
+			//账号和密码不匹配
+			map.put("msg", 3);
+			return map;
+		}
+		session.setAttribute("employee", emp);
+		map.put("msg", 1);
+		return map;
+	}
+	
+	public String logout(HttpServletRequest request){
+		return null;
+	}
+}

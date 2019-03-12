@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clothes.dao.wxq.RegionDao">
+     <!-- 查询字段 -->
+     <sql id="regionColumn">
+          r1.r_id,r1.r_name,r2.r_name AS pName
+     </sql>
+    <!-- 模糊查询 -->
+    <select id="findRegionLike" parameterType="com.clothes.pojo.Region"   resultType="java.util.Map">
+        SELECT <include refid="regionColumn"/>  FROM
+         region r1 LEFT JOIN region r2 ON r1.r_pid = r2.r_id WHERE  r1.r_state = 1
+         <where>
+             <if test="rPid>0 ">
+                AND   r1.r_pid = #{rPid}
+	         </if>
+	         <if test="rName!=null  and rName!='%% '">
+	              AND    r1.r_name LIKE #{rName} OR r2.r_name LIKE #{rName} 
+	         </if>
+         </where>
+    </select>
+    <!--精确查询  -->
+    <select id="findRegions"  parameterType="com.clothes.pojo.Region"  resultType="java.util.Map">
+        SELECT * FROM region WHERE r_name = #{rName}   AND r_pid = #{rPid}  AND r_state = 1
+    </select>
+    <!-- 添加 -->
+    <insert id="addRegion" parameterType="com.clothes.pojo.Region">
+         INSERT INTO region(region.r_name,region.r_pid,region.r_state) VALUES(#{rName},#{rPid},1)
+    </insert>
+    <!-- 更新 -->
+    <update id="updateRegion" parameterType="com.clothes.pojo.Region">
+        UPDATE region re SET re.r_name = #{rName},re.r_pid = #{rPid} WHERE re.r_id = #{rId}
+    </update>
+    <!--删除  -->
+    <update id="deleteRegion" >
+         UPDATE region re SET re.r_state = 0 WHERE re.r_id IN
+         <foreach collection="array" item="id" open="("  separator=","  close=")">
+             #{id}
+         </foreach>
+    </update>
+</mapper>

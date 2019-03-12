@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clothes.dao.wxq.GoodsDao">
+    <!-- 显示字段 -->
+    <sql id="cp">
+         gi.gi_id,gi.color,gi.size,gd.g_name,gd.fabrics
+    </sql>
+    <!-- 查询所有的产品 -->
+    <select id="findGoods"   resultType="java.util.Map">
+         SELECT <include refid="cp"/> FROM goodstitem gi LEFT JOIN goods gd ON gi.g_id = gd.g_id WHERE gd.g_state = 1 AND gd.g_type = 1
+    </select>
+</mapper>

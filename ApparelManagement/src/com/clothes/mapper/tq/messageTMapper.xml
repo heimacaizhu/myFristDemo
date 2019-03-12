@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.clothes.dao.tq.messageTMapper">
+    <!--员工映射-->
+    <resultMap id="EmployeeT" type="com.clothes.pojo.EmployeeT">
+        <id column="em_id" property="emId"/>
+        <result column="em_acount" property="emAcount"/>
+        <result column="em_pwd" property="emPwd"/>
+        <result column="em_type" property="emType"/>
+        <result column="em_name" property="emName"/>
+    </resultMap>
+    <select id="employeetById" resultMap="EmployeeT" parameterType="String">
+        SELECT a.* ,b.em_name FROM employee a , employee_info b WHERE a.em_id = #{id} and a.em_id = b.em_id;
+    </select>
+    <!--显示计划申请的数据-->
+    <select id="jhsqShow" resultType="Map" >
+        select * from apply a LEFT JOIN applyitem b ON  a.ap_id=b.ap_id
+    </select>
+    <!--将消息持久化-->
+    <insert id="addMessage" parameterType="com.clothes.pojo.MessageT">
+        INSERT INTO message VALUES (#{msgId},#{fromEm},#{toEm},#{content},#{msgDate},#{msgState});
+    </insert>
+
+</mapper>

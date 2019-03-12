@@ -1,0 +1,58 @@
+package com.clothes.pojo;
+
+import java.io.Serializable;
+
+/**
+ * 物品图片实体类
+ * @author 项目组
+ *
+ */
+public class Goodsimgs implements Serializable {
+	//id
+    private int imgId;
+    //所属物品
+    private Goodstitem goodsItem;
+    //图片路径
+    private String imgUrl;
+    //图片状态
+    private Integer imgState;
+
+    public int getImgId() {
+        return imgId;
+    }
+
+    public void setImgId(int imgId) {
+        this.imgId = imgId;
+    }
+    
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public Integer getImgState() {
+        return imgState;
+    }
+
+    public void setImgState(Integer imgState) {
+        this.imgState = imgState;
+    }
+
+	public Goodstitem getGoodsItem() {
+		return goodsItem;
+	}
+
+	public void setGoodsItem(Goodstitem goodsItem) {
+		this.goodsItem = goodsItem;
+	}
+
+	@Override
+	public String toString() {
+		return "Goodsimgs [imgId=" + imgId + ", goodsItem=" + goodsItem + ", imgUrl=" + imgUrl + ", imgState="
+				+ imgState + "]";
+	}
+    
+}

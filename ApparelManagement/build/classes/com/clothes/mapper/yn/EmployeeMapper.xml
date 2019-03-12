@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace为唯一id，一般命名为包名+文件名 -->
+<mapper namespace="com.clothes.dao.yn.EmployDaoy">
+	<!-- 回收策略 自动刷新时间60s 最多缓存512个对象 只读 -->
+	<cache eviction="FIFO" flushInterval="60000" size="512" readOnly="false">
+
+	</cache>
+	<!-- 对象映射 -->
+	<resultMap type="com.clothes.pojo.Employee" id="Employee">
+		<id column="em_id" property="emId" />
+		<result column="em_acount" property="emAcount" />
+		<result column="em_pwd" property="emPwd" />
+		<result column="em_type" property="emType" />
+		<result column="em_state" property="emState" />
+		<!-- 配置EmployeeInfo类映射 -->
+
+		<association property="employeeInfo" javaType="com.clothes.pojo.EmployeeInfo">
+			<id column="ei_id" property="eiId" />
+			<result column="em_name" property="emName" />
+			<result column="em_phone" property="emPhone" />
+			<result column="em_state" property="emState" />
+		</association>
+	</resultMap>
+
+	<!-- 获取所有员工 -->
+	<select id="getAllEmp" resultMap="Employee">
+		select
+		em.em_id,em.em_acount,em.em_type,em.em_state,ei.em_name,ei.em_phone
+		from employee em left join employee_info ei on em.em_id=ei.em_id
+	</select>
+
+	<!-- 获取指定员工 -->
+	<select id="getEmpById" resultMap="Employee" parameterType="java.lang.String">
+		select
+		em.em_id,em.em_acount,em.em_type,em.em_state,ei.em_name,ei.em_phone
+		from employee em left join employee_info ei on em.em_id=ei.em_id where
+		em.em_id=#{id}
+	</select>
+
+	<!-- 模糊查询员工 -->
+	<select id="getEmpByLike" resultMap="Employee" parameterType="java.util.Map">
+		select
+		em.em_id,em.em_acount,em.em_type,em.em_state,ei.em_name,ei.em_phone
+		from employee em left join employee_info ei on em.em_id=ei.em_id
+		<where>
+			<if test="acount!=null and acount!='' ">
+				or em.em_acount like #{acount}
+			</if>
+			<if test="name!=null and name!=''">
+				or ei.em_name like #{name}
+			</if>
+			<if test="phone!=null and phone!=''">
+				or ei.em_phone like #{phone}
+			</if>
+			<if test="type!=null and type!=''">
+				or em.em_type like #{type}
+			</if>
+			<if test="state!=null and state!=''">
+				or em.em_state like #{state}
+			</if>
+		</where>
+	</select>
+
+	<!-- 根据员工账号获取员工id -->
+	<select id="getEmpId" resultMap="Employee" parameterType="java.lang.String">
+		select
+		em_id from employee where em_acount=#{acount}
+	</select>
+
+	<!-- 增加员工基本信息 -->
+	<insert id="addEmp" parameterType="java.util.Map">
+		insert into employee
+		(em_acount,em_pwd,em_type,em_state) values
+		(#{acount},#{pwd},#{type},#{state})
+	</insert>
+
+	<!-- 增加员工的详细信息 -->
+	<insert id="addEmpInfo" parameterType="java.util.Map">
+		insert into employee_info
+		(em_name,em_phone,em_state,em_id) values
+		(#{name},#{phone},#{state},#{id})
+	</insert>
+
+	<!-- 修改员工基本信息 -->
+	<update id="updateEmp" parameterType="java.util.Map">
+		update employee set
+		em_type=#{type},em_state=#{state} where em_id=#{id}
+	</update>
+
+	<!-- 修改员工详细信息 -->
+	<update id="updateEmpInfo" parameterType="java.util.Map">
+		update employee_info
+		set em_phone=#{phone},em_state=#{state} where
+		em_id=#{id}
+	</update>
+
+	<!-- 删除员工 -->
+	<delete id="delEmp" parameterType="java.lang.String">
+		delete from employee where
+		em_id=#{id}
+	</delete>
+
+	<!-- 删除员工信息 -->
+	<delete id="delEmpInfo" parameterType="java.lang.String">
+		delete from employee_info
+		where em_id=#{id}
+	</delete>
+
+
+</mapper>

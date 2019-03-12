@@ -1,0 +1,53 @@
+/*未访问：蓝色、无下划线*/
+a:link {
+    color: #1cd042;
+    text-decoration: none;
+}
+
+/*激活：红色*/
+a:active {
+    color: red;
+}
+
+/*已访问：purple、无下划线*/
+a:visited {
+    color: #1cd042;
+    text-decoration: none;
+}
+
+/*鼠标移近：红色、下划线*/
+a:hover {
+    color: red;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.in_search_apply {
+    width: 300px;
+    display: inline;
+}
+
+.btn_search_apply {
+    display: inline;
+    width: 100px;
+}
+
+.apply tr th, .apply tr td {
+    text-align: center;
+}
+
+.apply_page {
+    text-align: center;
+}
+
+.btn_applyitem {
+    display: block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    color: #1cd042;
+    text-align: center;
+    border: 1px solid gainsboro;
+    border-radius: 50%;
+    cursor: pointer;
+}
